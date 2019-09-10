@@ -1,0 +1,54 @@
+server:
+  port: 8080
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: neo_route
+          uri: http://www.ityouknow.com
+          predicates:
+            - Path=/spring-cloud
+#        - id: path_route
+#          uri: http://ityouknow.com
+#          predicates:
+#            - Path=/foo/{segment}
+#        - id: time_route
+#          uri: http://www.ityouknow.com
+#          predicates:
+#            - After=2018-01-20T06:06:06+08:00[Asia/Shanghai]
+#        - id: cookie_route
+#          uri: http://ityouknow.com
+#          predicates:
+#            - Cookie=ityouknow, kee.e
+#        - id: header_route
+#          uri: http://ityouknow.com
+#          predicates:
+#            - Header=X-Request-Id, \d+
+#        - id: host_route
+#          uri: http://ityouknow.com
+#          predicates:
+#            - Host=**.ityouknow.com
+#        - id: method_route
+#          uri: http://ityouknow.com
+#          predicates:
+#            - Method=GET
+#        - id: query_route
+#          uri: http://ityouknow.com
+#          predicates:
+#            - Query=smile
+#        - id: query_route
+#          uri: http://ityouknow.com
+#          predicates:
+#            - Query=keep, pu.
+        - id: remoteaddr_route
+          uri: http://ityouknow.com
+          predicates:
+            # 举例：当且仅当请求IP是192.168.1.1/24网段，例如192.168.1.10，才转发该请求；
+            # 本机 IP = 10.106.10.130, 当使用远程地址断言的时候, 只有 http://10.106.10.130:8080 的才能匹配,
+            # 而 http://localhost:8080 或者 http://127.0.0.1:8080 都是匹配不上的；
+            # 子网掩码速查表：http://www.manongjc.com/detail/8-tthyivtekzrdhbx.html ；
+            # macOS 通过 ifconfig 命令查看本机ip地址；
+            # 我的ip地址是：10.106.10.130，子网掩码是：0xfffffc00，所以配置如下：
+            - RemoteAddr=10.106.10.130/22
+
+
